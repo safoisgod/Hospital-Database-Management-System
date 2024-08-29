@@ -40,14 +40,6 @@ CREATE TABLE medical_database.department
 	DepartmentCode VARCHAR(10) PRIMARY KEY,
     HOD VARCHAR(100));
 -- ----------------------------------------------------------------------------
-INSERT INTO medical_database.department
-	(DepartmentName, DepartmentCode)
-VALUES
-	("Emergency Department", "ERR"), ("Imaging Depatment", "IR"),
-	("Operation Department","OD"), ("Intensive Care Unit", "ICU"), ("Storage","STR"),
-	("Mother Child","MOTHCHILD"), ("Dialysis","DIALYSIS"), ("Consultation", "CONSULT"), ("Technical Department","TECHDEP"),
-	("Rehabilitation","REHAB"), ("Administration","ADMIN"), ("Pharmacy","PHARM"), ("Laboratorium","LABS");
- -- ----------------------------------------------------------------------------------
  
  
  
@@ -62,6 +54,8 @@ VALUES
     LastName VARCHAR(50),
     DepartmentCode VARCHAR(5),
     Position VARCHAR(25),
+    PhoneNumber VARCHAR(10) DEFAULT NULL,
+    Email VARCHAR(100) DEFAULT NULL,
     FOREIGN KEY (DepartmentCode) REFERENCES medical_database.department(DepartmentCode));
   -- ----------------------------------------------------------------------------------
   
@@ -78,6 +72,8 @@ VALUES
     LastName VARCHAR(50),
     DepartmentCode VARCHAR(5),
     Position VARCHAR(25),
+    PhoneNumber VARCHAR(10) DEFAULT NULL,
+    Email VARCHAR(100) DEFAULT NULL,
     FOREIGN KEY (DepartmentCode) REFERENCES medical_database.department(DepartmentCode));
   -- ----------------------------------------------------------------------------------
   
@@ -94,6 +90,8 @@ CREATE TABLE medical_database.non_medic
     LastName VARCHAR(50),
     DepartmentCode VARCHAR(5),
     Position VARCHAR(25),
+    PhoneNumber VARCHAR(10) DEFAULT NULL,
+    Email VARCHAR(100) DEFAULT NULL,
     FOREIGN KEY (DepartmentCode) REFERENCES medical_database.department(DepartmentCode));   
   -- ----------------------------------------------------------------------------------
   
@@ -119,15 +117,15 @@ CREATE TABLE medical_database.medication
 -- prescription table
 DROP TABLE IF EXISTS medical_database.prescription;
 CREATE TABLE medical_database.prescription
-		(PrescriptionID INT PRIMARY KEY,
+		(PrescriptionID VARCHAR(7) PRIMARY KEY,
         PatientID VARCHAR(5),
         FOREIGN KEY(PatientID) REFERENCES medical_database.patient(PatientID),
-        EmployeeID VARCHAR(5),
-        FOREIGN KEY(EmployeeID) REFERENCES medical_database.physician(EmployeeID),
+        PhysicianID VARCHAR(5),
+        FOREIGN KEY(PhysicianID) REFERENCES medical_database.physician(PhysicianID),
         MedicationID INT,
         FOREIGN KEY (MedicationID) REFERENCES medical_database.medication(MedicationID),
         PrescriptionCost DECIMAL(10,2),
-        PrecriptionDate TIMESTAMP,
+        PrecriptionDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         Dosage VARCHAR (50));
 -- ---------------------------------------------------------------------------------------
 
@@ -159,4 +157,4 @@ CREATE TABLE medical_database.room
     BlockCode INT,
     NoOfBeds INT,
     BedsAvailable INT,
-    FOREIGN KEY (BlockFloor, BlockCode) REFERENCES medical_database.block(BlockFloor, BlockCode);
+    FOREIGN KEY (BlockFloor, BlockCode) REFERENCES medical_database.block(BlockFloor, BlockCode));

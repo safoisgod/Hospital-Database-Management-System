@@ -9,7 +9,7 @@ CREATE TRIGGER PatientIDTrigger
 			DECLARE next_id INT;
             
             SELECT IFNULL(MAX(SUBSTRING(PatientID,2)),0) +1 INTO next_id FROM medical_database.patient;
-            SET NEW.PatientID = CONCAT("D",LPAD(next_id, 4, "0"));
+            SET NEW.PatientID = CONCAT("P",LPAD(next_id, 4, "0"));
 	END;
     //
 DELIMITER ;
@@ -82,4 +82,18 @@ DELIMITER ;
 
 
 -- -----------------------------------------------------------------------------------
-
+-- this trigger is meant to automatically insert a NonMedics ID upon every new entry into the Physician table
+DROP TRIGGER IF EXISTS PrescriptionIDTrigger;
+DELIMITER //
+CREATE TRIGGER PrescriptionIDTrigger
+	BEFORE INSERT ON medical_database.prescription
+		FOR EACH ROW BEGIN
+        -- lets begin by 
+			DECLARE next_id INT;
+            
+            SELECT IFNULL(MAX(SUBSTRING(PrescriptionID,5)),0) + 1 INTO next_id FROM mmedical_database.prescription;
+            SET NEW.PrescriptionID = CONCAT("PRES",LPAD(next_id, 6, "0"));
+	END;
+    //
+DELIMITER ;
+-- ------------
