@@ -10,8 +10,6 @@ VALUES
  -- ----------------------------------------------------------------------------------
  
  
- 
- 
  -- ----------------------------------------------------------------------------------
  -- add Patients
  -- Insert data into the patient table
@@ -65,3 +63,54 @@ CALL AddPhysician('Evelyn', 'Adams', 'STR', 'Storage Specialist', '5558889900', 
 CALL AddPhysician('Owen', 'Baker', 'MOTHCHILD', 'Pediatrician', '5559990011', 'owen.baker@example.com');
 CALL AddPhysician('Lily', 'Nelson', 'DIALYSIS', 'Nephrologist', '5550001122', 'lily.nelson@example.com');
 CALL AddPhysician('Elijah', 'Carter', 'CONSULT', 'Consultant', '5551112234', 'elijah.carter@example.com');
+
+
+
+-- -------------------------------------------------------------------------------------------
+-- add medications
+INSERT INTO medical_database.medication (MedicationName, Brand, Description) VALUES
+('Aspirin', 'Bayer', 'Used to reduce pain, fever, or inflammation'),
+('Ibuprofen', 'Advil', 'Nonsteroidal anti-inflammatory drug'),
+('Metformin', 'Glucophage', 'Used to treat type 2 diabetes'),
+('Amoxicillin', 'Amoxil', 'Antibiotic used to treat bacterial infections'),
+('Lisinopril', 'Prinivil', 'Used to treat high blood pressure'),
+('Simvastatin', 'Zocor', 'Used to lower cholesterol levels'),
+('Omeprazole', 'Prilosec', 'Used to treat acid reflux and ulcers'),
+('Hydrochlorothiazide', 'Microzide', 'Diuretic used to treat high blood pressure'),
+('Atorvastatin', 'Lipitor', 'Statin used to lower cholesterol'),
+('Cetirizine', 'Zyrtec', 'Antihistamine used to relieve allergy symptoms'),
+('Gabapentin', 'Neurontin', 'Used to treat nerve pain and seizures'),
+('Prednisone', 'Deltasone', 'Corticosteroid used to reduce inflammation'),
+('Metoprolol', 'Lopressor', 'Beta-blocker used to treat high blood pressure and heart issues'),
+('Losartan', 'Cozaar', 'Angiotensin II receptor blocker used to treat high blood pressure'),
+('Clopidogrel', 'Plavix', 'Antiplatelet medication used to prevent blood clots'),
+('Citalopram', 'Celexa', 'Antidepressant used to treat depression'),
+('Fluticasone', 'Flonase', 'Corticosteroid used to treat nasal allergies'),
+('Azithromycin', 'Zithromax', 'Antibiotic used to treat various infections'),
+('Lorazepam', 'Ativan', 'Benzodiazepine used to treat anxiety'),
+('Albuterol', 'Ventolin', 'Bronchodilator used to treat asthma and other respiratory conditions');
+
+
+
+-- --------------------------------------------------------------------
+-- add Prescriptions
+CALL AddPrescription('P0001', 'D0001', NULL, 50.75, NULL, '20mg daily');
+CALL AddPrescription('P0002', 'D0002', 102, 75.50, '2024-08-02 11:30:00', '10mg twice daily');
+CALL AddPrescription('P0003', NULL, 103, 120.00, '2024-08-03 09:15:00', '30mg once daily');
+CALL AddPrescription('P0004', 'D0003', 104, 45.25, '2024-08-04 14:00:00', '15mg daily');
+CALL AddPrescription('P0005', 'D0004', 105, 89.99, '2024-08-05 16:45:00', '25mg daily');
+CALL AddPrescription('P0006', 'D0001', 106, 67.30, '2024-08-06 08:00:00', '50mg daily');
+CALL AddPrescription('P0007', NULL, 107, 33.60, '2024-08-07 10:20:00', '5mg twice daily');
+CALL AddPrescription('P0008', 'D0002', 108, 110.20, '2024-08-08 13:10:00', '40mg once daily');
+CALL AddPrescription('P0009', 'D0003', 109, 55.80, '2024-08-09 11:00:00', '10mg thrice daily');
+CALL AddPrescription('P0010', 'D0004', 110, 98.40, '2024-08-10 09:25:00', '20mg twice daily');
+CALL AddPrescription('P0011', NULL, 111, 77.00, '2024-08-11 12:15:00', '15mg daily');
+CALL AddPrescription('P0012', 'D0001', 112, 85.90, '2024-08-12 14:00:00', '10mg daily');
+CALL AddPrescription('P0013', 'D0002', 113, 65.70, '2024-08-13 10:30:00', '25mg once daily');
+CALL AddPrescription('P0014', 'D0003', 114, 92.30, '2024-08-14 16:10:00', '30mg twice daily');
+CALL AddPrescription('P0015', 'D0004', 115, 40.50, '2024-08-15 11:45:00', '5mg daily');
+CALL AddPrescription('P0016', NULL, 116, 60.00, '2024-08-16 13:25:00', '15mg twice daily');
+CALL AddPrescription('P0017', 'D0001', 117, 73.85, '2024-08-17 09:55:00', '20mg once daily');
+CALL AddPrescription('P0018', 'D0002', 118, 48.90, '2024-08-18 10:40:00', '25mg daily');
+CALL AddPrescription('P0019', 'D0003', 119, 83.70, '2024-08-19 15:20:00', '30mg daily');
+CALL AddPrescription('P0020', 'D0004', 120, 55.00, '2024-08-20 12:00:00', '10mg thrice daily');

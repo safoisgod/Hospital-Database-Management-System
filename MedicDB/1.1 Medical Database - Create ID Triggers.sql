@@ -91,9 +91,13 @@ CREATE TRIGGER PrescriptionIDTrigger
         -- lets begin by 
 			DECLARE next_id INT;
             
-            SELECT IFNULL(MAX(SUBSTRING(PrescriptionID,5)),0) + 1 INTO next_id FROM mmedical_database.prescription;
+            -- Get the highest numeric part of the existing PrescriptionID
+            SELECT IFNULL(MAX(CAST(SUBSTRING(PrescriptionID,5) AS UNSIGNED)),0) + 1 INTO next_id 
+            FROM mmedical_database.prescription;
+            
+            -- Generate the new PrescriptionID
             SET NEW.PrescriptionID = CONCAT("PRES",LPAD(next_id, 6, "0"));
 	END;
     //
 DELIMITER ;
--- ------------
+-- ----------------------------------------------------------------------------------------------

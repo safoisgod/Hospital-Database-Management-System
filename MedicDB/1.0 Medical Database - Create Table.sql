@@ -25,7 +25,8 @@ CREATE TABLE medical_database.patient
     Sex VARCHAR(1), CHECK (Sex IN ("M","F")),
     Address VARCHAR (50),
     PhoneNumber VARCHAR(10),
-    InsuranceID INTEGER);
+    InsuranceID INTEGER,
+    RegistrationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
   -- ----------------------------------------------------------------------------------
   
   
@@ -37,7 +38,7 @@ CREATE TABLE medical_database.patient
 DROP TABLE IF EXISTS medical_database.department;
 CREATE TABLE medical_database.department
 	(DepartmentName VARCHAR(50),
-	DepartmentCode VARCHAR(10) PRIMARY KEY,
+	DepartmentCode VARCHAR(15) PRIMARY KEY,
     HOD VARCHAR(100));
 -- ----------------------------------------------------------------------------
  
@@ -50,12 +51,14 @@ CREATE TABLE medical_database.department
  DROP TABLE IF EXISTS medical_database.physician;
  CREATE TABLE medical_database.physician
 	(PhysicianID VARCHAR(5) PRIMARY KEY,
-    FirstName VARCHAR(50),
-    LastName VARCHAR(50),
-    DepartmentCode VARCHAR(5),
-    Position VARCHAR(25),
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    DepartmentCode VARCHAR(15),
+    Position VARCHAR(25) DEFAULT NULL,
+    Speciality VARCHAR(100) DEFAULT NULL,
     PhoneNumber VARCHAR(10) DEFAULT NULL,
     Email VARCHAR(100) DEFAULT NULL,
+    HireDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (DepartmentCode) REFERENCES medical_database.department(DepartmentCode));
   -- ----------------------------------------------------------------------------------
   
@@ -68,12 +71,13 @@ CREATE TABLE medical_database.department
  DROP TABLE IF EXISTS medical_database.nurse;
  CREATE TABLE medical_database.nurse
 	(NurseID VARCHAR(5) PRIMARY KEY,
-    FirstName VARCHAR(50),
-    LastName VARCHAR(50),
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
     DepartmentCode VARCHAR(5),
-    Position VARCHAR(25),
+    Position VARCHAR(25) DEFAULT NULL,
     PhoneNumber VARCHAR(10) DEFAULT NULL,
     Email VARCHAR(100) DEFAULT NULL,
+    HireDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (DepartmentCode) REFERENCES medical_database.department(DepartmentCode));
   -- ----------------------------------------------------------------------------------
   
@@ -86,12 +90,13 @@ CREATE TABLE medical_database.department
 DROP TABLE IF EXISTS medical_database.non_medic;
 CREATE TABLE medical_database.non_medic
 	(NonMedicID VARCHAR(5) PRIMARY KEY,
-    FirstName VARCHAR(50),
-    LastName VARCHAR(50),
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
     DepartmentCode VARCHAR(5),
-    Position VARCHAR(25),
+    Position VARCHAR(25) DEFAULT NULL,
     PhoneNumber VARCHAR(10) DEFAULT NULL,
     Email VARCHAR(100) DEFAULT NULL,
+    HireDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (DepartmentCode) REFERENCES medical_database.department(DepartmentCode));   
   -- ----------------------------------------------------------------------------------
   
@@ -103,7 +108,7 @@ CREATE TABLE medical_database.non_medic
 -- medications table
 DROP TABLE IF EXISTS medical_database.medication;
 CREATE TABLE medical_database.medication
-	(MedicationID INT PRIMARY KEY,
+	(MedicationID INT AUTO_INCREMENT PRIMARY KEY,
     MedicationName VARCHAR(100),
     Brand VARCHAR (100),
     Description VARCHAR(255));
@@ -116,8 +121,8 @@ CREATE TABLE medical_database.medication
 -- -----------------------------------------------------------------------------------
 -- prescription table
 DROP TABLE IF EXISTS medical_database.prescription;
-CREATE TABLE medical_database.prescription
-		(PrescriptionID VARCHAR(7) PRIMARY KEY,
+CREATE TABLE medical_database.prescription (
+		PrescriptionID VARCHAR(10) PRIMARY KEY,
         PatientID VARCHAR(5),
         FOREIGN KEY(PatientID) REFERENCES medical_database.patient(PatientID),
         PhysicianID VARCHAR(5),
@@ -125,7 +130,7 @@ CREATE TABLE medical_database.prescription
         MedicationID INT,
         FOREIGN KEY (MedicationID) REFERENCES medical_database.medication(MedicationID),
         PrescriptionCost DECIMAL(10,2),
-        PrecriptionDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        PrescriptionDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         Dosage VARCHAR (50));
 -- ---------------------------------------------------------------------------------------
 
@@ -139,7 +144,7 @@ DROP TABLE IF EXISTS medical_database.block;
 CREATE TABLE medical_database.block
 	(BlockFloor INT ,
     BlockCode INT,
-    PRIMARY KEY (blockfloor, blockcode));
+    PRIMARY KEY (Blockfloor, BlockCode));
 -- -----------------------------------------------------------------------------------------
 
 
@@ -150,11 +155,50 @@ CREATE TABLE medical_database.block
 -- ----------------------------------------------------------------------------------   
 -- room table
 DROP TABLE IF EXISTS medical_database.room;
-CREATE TABLE medical_database.room
-	(RoomNumber INT PRIMARY KEY,
-    RoomType VARCHAR (50),
-    BlockFloor INT ,
+CREATE TABLE medical_database.room (
+    RoomNumber INT PRIMARY KEY,
+    RoomType VARCHAR(50),
+    BlockFloor INT,
     BlockCode INT,
     NoOfBeds INT,
     BedsAvailable INT,
-    FOREIGN KEY (BlockFloor, BlockCode) REFERENCES medical_database.block(BlockFloor, BlockCode));
+    FOREIGN KEY (BlockFloor, BlockCode)
+        REFERENCES medical_database.block (BlockFloor , BlockCode)
+);
+-- -----------------------------------------------------------------------------------------
+
+
+
+
+
+
+-- ----------------------------------------------------------------------------------  
+-- appointments table
+CREATE TABLE medical_database.appointment (
+	AppointmentID INT AUTO_INCREMENT PRIMARY KEY,
+    PatientID VARCHAR(5),
+    PhysicianID VARCHAR(5),
+    AppointmentDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Reason TEXT,
+    Status ENUM('Scheduled', 'Completed', 'Cancelled') DEFAULT 'Scheduled',
+    FOREIGN KEY (PatientID) REFERENCES patient(PatientID),
+    FOREIGN KEY (PhysicianID) REFERENCES physician(PhysicianID));
+-- -----------------------------------------------------------------------------------------
+
+
+
+
+
+
+-- ----------------------------------------------------------------------------------  
+-- medical_records table
+CREATE TABLE medical_records (
+    RecordID INT AUTO_INCREMENT PRIMARY KEY,
+    PatientID VARCHAR(5),
+    PhysicianID VARCHAR(5),
+    RecordDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Diagnosis TEXT,
+    Treatment TEXT,
+    FOREIGN KEY (PatientID) REFERENCES patient(PatientID),
+    FOREIGN KEY (PhysicianID) REFERENCES physician(PhysicianID)
+);
