@@ -1,2 +1,2 @@
-# sql_analysis
-Data Analysis with SQL
+# Hospital Database Management System
+Developed a comprehensive database management system for a hospital to streamline patient records, appointment scheduling, and billing processes. Designed and implemented a relational database schema using SQL to ensure data integrity and efficient query performance. Integrated Python scripts for automated data analysis and reporting, enhancing decision-making and operational efficiency. Created user-friendly dashboards and reports using PowerBI to provide real-time insights into patient care and hospital operations.
